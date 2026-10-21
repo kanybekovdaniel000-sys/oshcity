@@ -75,12 +75,51 @@ form{display:grid;gap:10px;margin-top:14px}
 footer{background:var(--g);color:#fffa;padding:26px 0 calc(26px + env(safe-area-inset-bottom,0));font-size:13px}
 .fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0));z-index:30;box-shadow:0 6px 20px #0005}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.infra{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin:26px 0 40px}
+.icard{background:var(--g);color:#fff;border-radius:16px;overflow:hidden}
+.icard .ph{border-radius:0}
+.icard .b{padding:18px 20px 22px}
+.icard h3{color:var(--gold);font-size:22px}
+.icard ul,.two ul{margin:0;padding-left:20px}
+.icard li,.two li{margin:5px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;margin-top:30px}
+@media(max-width:760px){.two{grid-template-columns:1fr}}
+.banner{background:var(--g);color:#fff;border-radius:16px;padding:22px;text-align:center;font-family:Georgia,serif;font-size:clamp(20px,3vw,28px);margin:6px 0 0}
+.mapimg{border-radius:14px;overflow:hidden;border:1px solid var(--line);max-width:900px}
+
+.near{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px 28px}
+@media(max-width:760px){.near{grid-template-columns:1fr}}
+.near li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:8px 0}
+.near span{color:var(--mut);font-size:14px;white-space:nowrap}
+.note{font-size:13px;color:var(--mut);margin-top:12px;max-width:680px}
+.mgr{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 16px;margin:14px 0;max-width:380px}
+.mgr img{width:76px;height:76px;border-radius:50%;object-fit:cover;flex:none}
+.mgr small{display:block;color:var(--mut)}
+.mgr b{font-size:20px;font-family:Georgia,serif}
+.mgr span{display:block;font-size:14px;color:#2f7d4f}
+.chat{position:fixed;right:16px;bottom:calc(76px + env(safe-area-inset-bottom,0));z-index:40;width:min(340px,calc(100vw - 32px));background:#fff;border-radius:18px;box-shadow:0 12px 40px #0004;padding:16px 18px 18px}
+.chat[hidden]{display:none}
+.chat .hd{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+.chat .hd img{width:46px;height:46px;border-radius:50%;object-fit:cover}
+.chat small{display:block;color:var(--mut)}
+.chat p{margin:6px 0}
+.chat .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chat .btn{padding:9px 16px;font-size:14px}
+.chat .x{position:absolute;top:6px;right:10px;border:0;background:none;font-size:24px;cursor:pointer;color:var(--mut)}
+
+.fav{float:right;border:0;background:none;font-size:24px;line-height:1;cursor:pointer;color:#b9b3a0}
+.fav[aria-pressed=true]{color:#c0392b}
+.vids{display:flex;gap:12px;overflow-x:auto;margin-bottom:14px}
+.vids figure{margin:0;flex:0 0 min(78%,260px)}
+.vids video{width:100%;border-radius:14px;background:#000;aspect-ratio:9/16;object-fit:cover}
+.legal{max-width:760px;margin:0 auto;padding:40px 20px}
 </style>
 </head>
 <body>
 <header><div class="wrap">
   <a class="logo" href="#top" id="logo"></a>
-  <nav><a href="#about">О проекте</a><a href="#clients">Отзывы</a><a href="#genplan">Генплан</a><a href="#flats">Квартиры</a><a href="#calc">Калькулятор</a><a href="#faq">Вопросы</a></nav>
+  <nav><a href="#about">О проекте</a><a href="#infra">Инфраструктура</a><a href="#location">Локация</a><a href="#clients">Отзывы</a><a href="#genplan">Генплан</a><a href="#flats">Квартиры</a><a href="#calc">Калькулятор</a><a href="#faq">Вопросы</a></nav>
   <a class="btn" id="waTop" href="#">WhatsApp</a>
 </div></header>
 
@@ -97,12 +136,35 @@ footer{background:var(--g);color:#fffa;padding:26px 0 calc(26px + env(safe-area-
   <h2 id="aboutTitle"></h2>
   <p id="aboutText" style="max-width:640px"></p>
   <div class="facts" id="facts"></div>
+  <h3 style="margin-top:34px">Что рядом с домом</h3>
+  <ul class="near" id="near"></ul>
+  <p class="note">Расстояния по прямой от участка между улицами Беш-Капа и Курманжан-Датка, по данным карты OpenStreetMap; время примерное.</p>
   <div class="gallery" id="aboutGallery"></div>
+</div></section>
+
+<section id="infra" style="background:#fff"><div class="wrap">
+  <h2>Инфраструктура Osh City в цифрах</h2>
+  <div class="infra" id="infraCards"></div>
+  <div class="two">
+    <div><h3>Что будет в комплексе</h3><p id="mallLead"></p><ul id="mallList"></ul></div>
+    <div><div class="ph"><img id="mallImg" alt="Торгово-развлекательный центр" loading="lazy" onerror="this.remove()"></div><div class="ph" style="margin-top:12px"><img id="nightImg" alt="Osh City вечером" loading="lazy" onerror="this.remove()"></div></div>
+  </div>
+  <div class="two">
+    <div><h3>Все коммуникации централизованные</h3><ul id="commList"></ul><h3 style="margin-top:20px">Отопление</h3><p id="heatText"></p></div>
+    <div><h3>Внутренняя инфраструктура</h3><ul id="innerList"></ul></div>
+  </div>
+</div></section>
+
+<section id="location"><div class="wrap">
+  <h2>Локация</h2>
+  <p id="locText" style="max-width:640px"></p>
+  <div class="mapimg"><img id="mapImg" alt="Карта Оша: расположение Osh City" loading="lazy" onerror="this.parentNode.remove()"></div>
 </div></section>
 
 <section id="clients" class="dark-s"><div class="wrap">
   <h2>Мои клиенты уже с ключом к новой жизни</h2>
   <p id="clientsText" style="max-width:640px"></p>
+  <div class="vids" id="vids"></div>
   <div class="gallery" id="clientsGallery"></div>
 </div></section>
 
@@ -121,6 +183,7 @@ footer{background:var(--g);color:#fffa;padding:26px 0 calc(26px + env(safe-area-
     <div><label for="fPay">Платёж в месяц до</label><select id="fPay"></select></div>
     <div><label for="fSort">Сортировка</label><select id="fSort"><option value="p">Сначала дешевле</option><option value="a">Сначала просторнее</option><option value="fu">Выше этаж</option><option value="fd">Ниже этаж</option></select></div>
   </div>
+  <p><button class="chip" id="favBtn" aria-pressed="false">♥ Избранное <span id="favN">0</span></button></p>
   <div class="cards" id="cards"></div>
 </div></section>
 
@@ -153,7 +216,7 @@ footer{background:var(--g);color:#fffa;padding:26px 0 calc(26px + env(safe-area-
   <div class="contact">
     <div>
       <p id="office"></p>
-      <p id="mgr"></p>
+      <div class="mgr"><img src="manager-ava.webp" alt="Даниель" onerror="this.remove()"><div><small>Ваш менеджер</small><b id="mgrName"></b><span>● На связи</span></div></div>
       <p><a class="btn" id="waBig" href="#">Написать в WhatsApp</a> <a class="btn dark" id="tel" href="#"></a> <a class="btn dark" id="tel2" href="#"></a></p>
       <h3>Перезвоним за 15 минут</h3>
       <form id="cb"><input type="text" id="cbName" placeholder="Ваше имя" required><input type="tel" id="cbPhone" placeholder="Телефон" required><button class="btn dark" type="submit">Перезвоните мне</button></form>
@@ -164,6 +227,13 @@ footer{background:var(--g);color:#fffa;padding:26px 0 calc(26px + env(safe-area-
 </main>
 
 <footer><div class="wrap" id="foot"></div></footer>
+<div class="chat" id="chat" hidden role="dialog" aria-label="Сообщение от менеджера">
+  <button class="x" id="chatX" aria-label="Закрыть">×</button>
+  <div class="hd"><img src="manager-ava.webp" alt="" onerror="this.remove()"><div><b id="chatName"></b><small>персональный менеджер · онлайн</small></div></div>
+  <p>Здравствуйте! 👋</p>
+  <p id="chatText"></p>
+  <div class="row"><button class="btn dark" id="chatGo">Да, идём! →</button><a class="btn" id="chatWa" href="#">Написать мне</a></div>
+</div>
 <a class="btn fab" id="waFab" href="#">WhatsApp</a>
 
 <script>
@@ -174,22 +244,35 @@ const C = {
   phone: "+996554270499",
   phone2: "+996506130320",
   manager: "Даниель",
-  wa: "996554270499",                    // номер для WhatsApp без плюса
-  img: "https://ajibekjyrgalbekov-a11y.github.io/Oshcity/", // откуда берутся фото; для своих фото поставьте ""
+  wa: "996554270499",
+  img: "",                               // все фото лежат рядом с index.html
   firstPay: 500000,
   months: 67,
   tiers: [{to: 13, price: 92400}, {to: 99, price: 88000}],
-  office: "Отдел продаж в Оше: ул. Масалиева 118а, ул. Осмонова 19.",
+  offices: [["Ош","Масалиева 118а · Осмонова 19"],["Бишкек","Льва Толстого 110 · Леваневского 2а · Васильевский тракт 1к/1"],["Москва","Метро Новые Черёмушки, БЦ «Черри Таувер», ул. Профсоюзная 56"]],
   mapQuery: "Кызыл-Кыштак, Ош",
   lead: "Квартиры в рассрочку <b>без процентов</b> на <b>67</b> месяцев. Первый взнос всего <b>500 000</b> сом.",
-  aboutTitle: "Больше чем комплекс — новый район Оша",
-  aboutText: "Osh City — масштабный городок на улицах Курманжан-Датка и Беш-Капа: жилые дома, школы, детские сады, больница, парк, мечети и торгово-развлекательный центр. Всё для жизни — рядом с домом.",
+  aboutTitle: "Больше чем комплекс — это город в городе",
+  aboutText: "У каждого современного и развивающегося города есть свой уникальный символ. Теперь и город Ош открывает новую страницу своей истории, представляя современный и масштабный городок — Osh City. В городке предусмотрено всё, что нужно для комфортной жизни.",
   hero: [["0%","переплата по рассрочке"],["67","месяцев рассрочки"],["500 000","сом — первый взнос от"]],
-  facts: [["3 000","учеников в школах"],["620","детей в детских садах"],["350","мест в роддоме"],["ТРЦ","4 этажа: кино, рестораны, магазины, отель"]],
+  facts: [["4","школы на 3 000 учеников"],["2","детских сада на 620 детей"],["430","мест в больнице"],["4,5 га","парк для отдыха и прогулок"]],
+  infra: [
+    {t:"Образование", img:"school", items:["4 современные школы на 3 000 учеников","2 детских сада на 620 детей","Площадь 39 500 м²"]},
+    {t:"Медицина", img:"hospital", items:["Родильный дом на 350 мест","Больница на 430 мест","Диагностический центр на 300 мест"]},
+    {t:"Досуг", img:"park", items:["Парк 4,5 га для отдыха и прогулок","3 мечети для духовных потребностей","Многофункциональный торгово-развлекательный комплекс"]}
+  ],
+  mallLead: "Четырёхэтажное пространство, где шопинг, развлечения и деловая инфраструктура объединены в единую современную экосистему — новая точка притяжения для жителей и гостей города.",
+  mall: ["Международные и люксовые бренды","Просторные торговые галереи и флагманские магазины","Многозальный кинотеатр","Развлекательные зоны и площадки для мероприятий","Фудкорт и рестораны с разнообразной кухней","Люксовые отели для отдыха и деловых встреч","Просторный паркинг","Комфортные зоны отдыха","Современные системы безопасности"],
+  comm: ["Газоснабжение","Водоснабжение","Канализация"],
+  heat: "Индивидуальный газовый котёл в каждой квартире.",
+  inner: ["Благоустроенная территория, озеленение","Собственное учреждение дошкольного образования","Собственный учебно-воспитательный центр","Собственный лечебно-оздоровительный комплекс","Детские и спортивные площадки","Прогулочные аллеи и зоны отдыха","Мечеть"],
+  locText: "Osh City — новый современный район Оша: г. Ош, Кызыл-Кыштак, на территории улиц Курманжан-Датка и Беш-Капа.",
+  near: [["Супермаркет «Долина»","300 м · 4 мин пешком"],["Мечеть","320 м · 5 мин пешком"],["Школа №43 им. З. М. Бабура","490 м · 7 мин пешком"],["Школа №15 им. М. Кубанова","820 м · 11 мин пешком"],["Поликлиника","830 м · 12 мин пешком"],["Аптека","860 м · 12 мин пешком"],["Больница","1,1 км · 5 мин на машине"],["Детский сад","1,2 км · 17 мин пешком"],["Ошский рынок","2,0 км · 7 мин на машине"],["Парк «Беш Копуро»","2,2 км · 8 мин на машине"],["Сулайман-Тоо","2,4 км · 8 мин на машине"],["Центр Оша","4,6 км · 14 мин на машине"],["Аэропорт Ош","6,7 км · 19 мин на машине"]],
   blocks: ["Блок А","Блок Б","Блок В"],
   // квартиры: [блок(индекс), комнат, площадь м², этаж] — ЗАМЕНИТЕ на актуальный список
   flats: [[0,1,38,3],[0,1,41,8],[0,2,62,5],[0,2,66,12],[0,3,84,9],[1,1,36,4],[1,2,58,7],[1,2,64,15],[1,3,88,11],[2,1,40,2],[2,2,60,10],[2,3,90,16]],
   faq: [
+    ["Какие документы нужны для оформления?","Только паспорт. Всё остальное подготовим вместе в офисе продаж."],
     ["Есть ли проценты по рассрочке?","Нет. Рассрочка от застройщика без процентов и без банка: вы платите ровно стоимость квартиры. Первый взнос от 500 000 сом, остаток делится на срок до 67 месяцев."],
     ["Почему на высоких этажах дешевле?","Цена за м² зависит от этажа: до 13 этажа — 92 400 сом, с 14 этажа — 88 000 сом. Это уже учтено во всех расчётах на сайте."],
     ["Насколько актуален список квартир?","Перед бронью менеджер ещё раз подтвердит наличие квартиры."],
@@ -197,8 +280,9 @@ const C = {
     ["Как забронировать квартиру?","Нажмите «Написать в WhatsApp» на странице квартиры: номер и расчёт уже будут в сообщении. Менеджер ответит, пригласит на просмотр и оформление."],
     ["Какое отопление?","Индивидуальный газовый котёл в каждой квартире. Газоснабжение, водоснабжение и канализация централизованные."]
   ],
+  videos: ["review-1.mp4","review-2.mp4"],   // видеоотзывы: положите файлы рядом с index.html; нет файла — блок скрыт
   clientPhotos: 4,
-  aboutPhotos: [["aerial2-sm","Вид на городок"],["blocks-sm","Кварталы с закрытыми дворами"],["towers-sm","Современные дома"],["school-sm","Школы и детские сады"],["fountain-sm","Площади и фонтаны"],["sport-sm","Спорт"],["mosque-sm","Мечети"],["business-sm","Деловой центр"]]
+  aboutPhotos: [["g-aerial2","Osh City с высоты"],["g-houses","Жилые дома"],["g-towers","Современные башни"],["g-quarters","Жилые кварталы"],["g-fountain","Площадь с фонтаном"],["g-boulevard","Пешеходная аллея"],["g-townhouses","Таунхаусы"],["g-parking","Малоэтажные дома и парковка"],["g-kindergarten","Детский сад"],["g-sport","Спортивный центр"],["g-business","Деловой центр"],["g-mosque","Мечеть"]]
 };
 /* ================================================= */
 
@@ -210,8 +294,8 @@ const flats = C.flats.map((f,i) => ({id:i,block:f[0],rooms:f[1],area:f[2],floor:
 const monthly = (p,first,term) => Math.max(0,(p-first)/term);
 let block = null;
 
-document.querySelector(".hero").style.background="linear-gradient(#0d3326cc,#0d3326f2),url("+C.img+"img/photos/aerial.webp) center/cover #0d3326";
-$("genImg").src=C.img+"img/photos/genplan-crop.webp";
+document.querySelector(".hero").style.background="linear-gradient(#0d3326cc,#0d3326f2),url("+C.img+"aerial.webp) center/cover #0d3326";
+$("genImg").src=C.img+"genplan.webp";
 document.title = C.brand + " — квартиры в рассрочку";
 $("logo").textContent = C.brand;
 $("loc").textContent = C.place;
@@ -221,18 +305,42 @@ $("heroStats").innerHTML = C.hero.map(f=>`<div><b>${f[0]}</b><span>${f[1]}</span
 $("aboutTitle").textContent = C.aboutTitle;
 $("aboutText").textContent = C.aboutText;
 $("facts").innerHTML = C.facts.map(f=>`<div><b>${f[0]}</b>${f[1]}</div>`).join("");
-$("aboutGallery").innerHTML = C.aboutPhotos.map(p=>`<figure><div class="ph"><img src="${C.img}img/photos/${p[0]}.webp" alt="${p[1]}" loading="lazy" onerror="this.remove()"></div><figcaption>${p[1]}</figcaption></figure>`).join("");
+$("aboutGallery").innerHTML = C.aboutPhotos.map(p=>`<figure><div class="ph"><img src="${C.img}${p[0]}.webp" alt="${p[1]}" loading="lazy" onerror="this.remove()"></div><figcaption>${p[1]}</figcaption></figure>`).join("");
 $("clientsText").textContent = "Каждое фото — реальная семья, которая оформила квартиру вместе со мной. Помогаю выбрать квартиру, считаю рассрочку и сопровождаю до подписания договора.";
 $("clientsGallery").innerHTML = Array.from({length:C.clientPhotos},(_,i)=>{const n=String(i+1).padStart(2,"0");return `<figure><div class="ph tall"><img src="client-${n}.webp" alt="Клиент с договором на квартиру" loading="lazy" onerror="this.remove()"></div></figure>`}).join("");
 $("calcText").textContent = "Рассрочка от застройщика без процентов. Увеличьте взнос, и платёж в месяц станет меньше.";
 $("faqList").innerHTML = C.faq.map(q=>`<details><summary>${q[0]}</summary><p>${q[1]}</p></details>`).join("");
-$("office").textContent = C.office;
+$("office").innerHTML = C.offices.map(o=>`<b>${o[0]}:</b> ${o[1]}`).join("<br>") + `<br><a href="https://2gis.kg/osh/search/${encodeURIComponent("Масалиева 118а")}" target="_blank" rel="noopener">Офис в Оше на 2ГИС →</a>`;
 $("tel").textContent = C.phone; $("tel").href = "tel:" + C.phone;
 $("tel2").textContent = C.phone2; $("tel2").href = "tel:" + C.phone2;
-$("mgr").innerHTML = "Менеджер: <b>" + C.manager + "</b>";
+$("mgrName").textContent = C.manager;
 $("map").src = "https://maps.google.com/maps?q=" + encodeURIComponent(C.mapQuery) + "&z=14&output=embed";
-$("foot").textContent = `© ${C.brand} · Цены и наличие носят информационный характер, точные условия уточняйте у менеджера.`;
+$("foot").innerHTML = `© ${C.brand} · Цены и наличие носят информационный характер, точные условия уточняйте у менеджера. · <a href="privacy.html">Политика конфиденциальности</a>`;
 ["waTop","waBig","waFab"].forEach(id => $(id).href = wa("Здравствуйте! Интересуют квартиры в рассрочку."));
+
+/* инфраструктура и локация */
+$("infraCards").innerHTML = C.infra.map(c=>`<div class="icard"><div class="ph"><img src="${C.img}${c.img}.webp" alt="${c.t}" loading="lazy" onerror="this.remove()"></div><div class="b"><h3>${c.t}</h3><ul>${c.items.map(i=>`<li>${i}</li>`).join("")}</ul></div></div>`).join("");
+const li = a => a.map(i=>`<li>${i}</li>`).join("");
+$("mallLead").textContent = C.mallLead; $("mallList").innerHTML = li(C.mall);
+$("mallImg").src = C.img+"mall.webp"; $("nightImg").src = C.img+"night.webp";
+$("commList").innerHTML = li(C.comm); $("heatText").textContent = C.heat; $("innerList").innerHTML = li(C.inner);
+$("locText").textContent = C.locText; $("mapImg").src = C.img+"map.webp";
+
+/* видеоотзывы */
+$("vids").innerHTML = (C.videos||[]).map(v=>`<figure><video controls playsinline preload="metadata" src="${v}" onerror="this.parentNode.remove()"></video></figure>`).join("");
+
+/* что рядом */
+$("near").innerHTML = C.near.map(n=>`<li>${n[0]}<span>${n[1]}</span></li>`).join("");
+
+/* приветствие менеджера */
+$("chatName").textContent = C.manager;
+$("chatText").innerHTML = `Я ${C.manager} — ваш персональный менеджер в ${C.brand}.<br>Идём искать вашу квартиру мечты? 🏡<br><br>Сначала выберем блок, потом этаж и планировку. Я сразу посчитаю платёж в месяц.`;
+$("chatWa").href = wa("Здравствуйте! Хочу подобрать квартиру в рассрочку.");
+function closeChat(){ $("chat").hidden = true; try{ sessionStorage.setItem("chatSeen","1") }catch(e){} }
+$("chatX").onclick = closeChat;
+$("chatGo").onclick = () => { closeChat(); location.hash = "genplan"; };
+let seen = false; try{ seen = sessionStorage.getItem("chatSeen")==="1" }catch(e){}
+if(!seen) setTimeout(()=>{ $("chat").hidden = false }, 4000);
 
 /* блоки */
 function drawBlocks(){
@@ -246,17 +354,23 @@ $("fFloor").innerHTML = '<option value="0">Любой</option>' + [[2,5],[6,9],[
 $("fPay").innerHTML = '<option value="0">Любая сумма</option>' + [150000,200000,250000,300000,400000].map(v=>`<option value="${v}">${fmt(v)} сом</option>`).join("");
 ["fRooms","fFloor","fPay","fSort"].forEach(id=>$(id).onchange=drawFlats);
 
+let favs = new Set(), favOnly = false;
+try{ favs = new Set(JSON.parse(localStorage.getItem("favs")||"[]")) }catch(e){}
+function saveFavs(){ try{ localStorage.setItem("favs",JSON.stringify([...favs])) }catch(e){} }
+$("favBtn").onclick = () => { favOnly = !favOnly; drawFlats() };
 function drawFlats(){
   const r=+$("fRooms").value, fl=$("fFloor").value.split(",").map(Number), pay=+$("fPay").value, s=$("fSort").value;
-  let list = flats.filter(f => (block===null||f.block===block) && (!r||f.rooms===r) && (!fl[0]||(f.floor>=fl[0]&&f.floor<=fl[1])) && (!pay||monthly(f.price,C.firstPay,C.months)<=pay));
+  let list = favOnly ? flats.filter(f=>favs.has(f.id)) : flats.filter(f => (block===null||f.block===block) && (!r||f.rooms===r) && (!fl[0]||(f.floor>=fl[0]&&f.floor<=fl[1])) && (!pay||monthly(f.price,C.firstPay,C.months)<=pay));
   list.sort((a,b)=>s==="p"?a.price-b.price:s==="a"?b.area-a.area:s==="fu"?b.floor-a.floor:a.floor-b.floor);
   $("cards").innerHTML = list.length ? list.map(f=>{
     const m = monthly(f.price,C.firstPay,C.months);
     const msg = `Здравствуйте! Интересует ${f.rooms}-комн. квартира ${f.area} м², ${f.floor} этаж, ${C.blocks[f.block]}. Платёж ~${fmt(m)} сом/мес.`;
-    return `<div class="card"><h3>${f.rooms}-комн · ${f.area} м²</h3><p class="m">${C.blocks[f.block]} · ${f.floor} этаж · ${fmt(f.price)} сом</p>
+    return `<div class="card"><button class="fav" data-id="${f.id}" aria-pressed="${favs.has(f.id)}" aria-label="В избранное">♥</button><h3>${f.rooms}-комн · ${f.area} м²</h3><p class="m">${C.blocks[f.block]} · ${f.floor} этаж · ${fmt(f.price)} сом</p>
       <div class="pay">${fmt(m)} сом/мес</div>
       <div class="row"><a class="btn" href="${wa(msg)}">WhatsApp</a><button class="btn dark" onclick="pick(${f.id})">Рассчитать</button></div></div>`}).join("")
-    : `<div class="empty">По этим условиям квартир нет. Измените фильтры или выберите «Все блоки».</div>`;
+    : `<div class="empty">${favOnly?"В избранном пока пусто. Нажмите ♥ на понравившейся квартире.":"По этим условиям квартир нет. Измените фильтры или выберите «Все блоки»."}</div>`;
+  $("cards").querySelectorAll(".fav").forEach(b=>b.onclick=()=>{const id=+b.dataset.id; favs.has(id)?favs.delete(id):favs.add(id); saveFavs(); drawFlats()});
+  $("favN").textContent = favs.size; $("favBtn").setAttribute("aria-pressed",favOnly);
 }
 function pick(id){ $("cFlat").value=id; $("cFloor").value=flats[id].floor; calc(); location.hash="calc" }
 
